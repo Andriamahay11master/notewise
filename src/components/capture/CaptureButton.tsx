@@ -1,56 +1,83 @@
-import{ useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface CaptureButtonProps {
-    onCapture: (imageData: string) => void;
+  onCapture: (imageData: string) => void;
 }
-const CaptureButton = ({ onCapture } : CaptureButtonProps) => {
-  const [isCapturing, setIsCapturing] = useState(false);
 
-  // Fonction pour capturer une image
-  const handleCapture = async () => {
-    try {
-      setIsCapturing(true);
-      
-      // Vérifie si le navigateur supporte la caméra
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        alert("Camera not supported on this device.");
-        setIsCapturing(false);
-        return;
-      }
+const CaptureButton = ({ onCapture }: CaptureButtonProps) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isCameraOn, setIsCameraOn] = useState(false);
 
-      // Accède à la caméra de l'appareil
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      const video = document.createElement('video');
-      video.srcObject = stream;
-      await video.play();
-
-      // Capture l'image
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
-        if (ctx) {
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  // Activer la caméra quand le composant est monté
+  useEffect(() => {
+    const enableCamera = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment' } // caméra arrière
+        });
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          setIsCameraOn(true);
         }
+      } catch (error) {
+        console.error("Camera access error:", error);
+        alert("Unable to access the camera.");
+      }
+    };
 
-      // Arrête la caméra
-      stream.getTracks().forEach(track => track.stop());
+    enableCamera();
 
-      // Convertit l'image en data URL (base64) pour traitement OCR
-      const imageData = canvas.toDataURL('image/png');
-      onCapture(imageData); // Envoie l'image capturée au composant parent
+    // Désactiver la caméra quand le composant est démonté
+    return () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+        (videoRef.current.srcObject as MediaStream)
+          .getTracks()
+          .forEach(track => track.stop());
+      }
+    };
+  }, []);
 
-    } catch (error) {
-      console.error("Error capturing image:", error);
-    } finally {
-      setIsCapturing(false);
+  // Fonction de capture d'image
+  const handleCapture = () => {
+    if (!videoRef.current) return;
+
+    // Créer un canvas pour capturer l'image du flux vidéo
+    const canvas = document.createElement('canvas');
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
     }
+
+    // Convertir l'image en data URL (base64) pour un traitement ultérieur
+    const imageData = canvas.toDataURL('image/png');
+    onCapture(imageData);
+
+    // Désactiver la caméra après capture
+    if (videoRef.current.srcObject) {
+      (videoRef.current.srcObject as MediaStream)
+        .getTracks()
+        .forEach(track => track.stop());
+    }
+    setIsCameraOn(false);
   };
 
   return (
-    <button className="btn btn-primary" onClick={handleCapture} disabled={isCapturing}>
-      {isCapturing ? 'Capturing...' : 'Capture Image'}
-    </button>
+    <div>
+      {isCameraOn ? (
+        <div>
+          <video ref={videoRef} autoPlay playsInline style={{ width: '100%', maxHeight: '300px' }} />
+          <button className="btn btn-primary" onClick={handleCapture}>
+            Take Photo
+          </button>
+        </div>
+      ) : (
+        <button className="btn btn-primary" onClick={() => setIsCameraOn(true)}>
+          Start Camera
+        </button>
+      )}
+    </div>
   );
 };
 
