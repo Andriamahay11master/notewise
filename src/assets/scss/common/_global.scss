@@ -38,7 +38,7 @@ body {
   line-height: 1.45;
   overflow-x: hidden;
   scroll-behavior:smooth;
-  color: #FFF;
+  color: #000;
   @include max(1280px) {
     font-size: 15px;
   }
@@ -48,7 +48,7 @@ h1, .title-h1{
   font-size: 60px;
   line-height: 1.2;
   font-weight: 700;
-  color: #FFF;
+  color: #000;
   @include max(1440px){
     font-size: 40px;
   }
@@ -73,7 +73,7 @@ h3, .title-h3{
   font-size: 26px;
   line-height: 1.2;
   font-weight: 600;
-  color: #fff;
+  color: #000;
   @include max(1440px){
     font-size: 24px;
   }
@@ -86,7 +86,7 @@ h4, .title-h4{
   font-size: 16px;
   line-height: 1.2;
   font-weight: 600;
-  color: #fff;
+  color: #000;
   @include max(1440px){
     font-size: 15px;
   }
