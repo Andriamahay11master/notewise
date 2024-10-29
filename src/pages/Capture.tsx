@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CaptureButton from "../components/capture/CaptureButton";
+import { Link } from "react-router-dom";
 
 export default function Capture(){
     const [capturedImage, setCapturedImage] = useState<string | null>(null);
@@ -23,6 +24,8 @@ export default function Capture(){
                     />
                     </div>
                 )}
+                
+                <Link to={'/'}>Retour à l'accueil</Link>
             </div>
         </div>
     )
