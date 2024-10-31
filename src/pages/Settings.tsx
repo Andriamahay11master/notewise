@@ -1,3 +1,4 @@
+import Footer from "../components/footer/Footer"
 import Header from "../components/header/Header"
 import { headerNav } from "../data/header"
 
@@ -10,6 +11,7 @@ export default function Settings(){
                     <p>Page Settings</p>
                 </div>
             </div>
+            <Footer copyright="Note Wise"/>
         </>
     )
 }
