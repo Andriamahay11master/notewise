@@ -1,10 +1,16 @@
-import { Link } from "react-router-dom";
+
+import Header from "../components/header/Header";
+import { headerNav } from "../data/header";
 
 export default function Home(){
     return (
         <>
-            <p>Page Home</p>
-            <Link to={'/capture'}>Capture</Link>
+            <Header linkMenu={headerNav} userMail="admin"/>
+            <div className="main-page">
+                <div className="container">
+                    <p>PageHome</p>
+                </div>
+            </div>
         </>
     )
 }

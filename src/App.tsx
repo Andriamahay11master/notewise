@@ -15,7 +15,6 @@ function App() {
           <Route path='/capture' element={<Capture/>}></Route>
           <Route path='/editor' element={<NoteEditor/>}></Route>
           <Route path='/settings' element={<Settings/>}></Route>
-          <Route path='/settings' element={<Settings/>}></Route>
         </Routes>
     </Router>
     
