@@ -1,148 +1,148 @@
-.main-page{
-    position: relative;
-    height: 100vh;
-    padding: 200px 0;
-    .main-logo{
-      width: 400px;
-      margin: auto;
-      @include max(992px){
-        width: 300px;
-      }
-      img{
-        width: 100%;
-        height: auto;
-      }
+.main-page {
+  padding-top: 75px;
+  background: $default-bg;
+  min-height: calc(100vh - 54px);
+  .main-logo {
+    width: 400px;
+    margin: auto;
+    @include max(992px) {
+      width: 300px;
     }
-    &.page-home{
-      .main-logo{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-    }
-    &.main-page-chat{
-      background: #FFF;
-      .content{
-        padding-top: 200px;
-        height: 100vh;
-        @include max(992px){
-          padding-top: 163px;
-        }
-      }
-    }
-    .main-welcome{
-      padding: 40px 10px;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      text-align: center;
+    img {
       width: 100%;
-      h1{
-        margin-bottom: 10px;
+      height: auto;
+    }
+  }
+  &.page-home {
+    .main-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  &.main-page-chat {
+    background: #fff;
+    .content {
+      padding-top: 200px;
+      height: 100vh;
+      @include max(992px) {
+        padding-top: 163px;
       }
-      p{
+    }
+  }
+  .main-welcome {
+    padding: 40px 10px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    h1 {
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 30px;
+      @include max(992px) {
+        width: 50%;
+        margin: auto;
         margin-bottom: 30px;
-        @include max(992px){
-          width: 50%;
-          margin: auto;
-          margin-bottom: 30px;
+      }
+    }
+  }
+  .main-page-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    @include max(768px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .filter-main {
+      display: flex;
+      align-items: center;
+      @include max(575px) {
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-end;
+      }
+      span {
+        margin-right: 10px;
+        @include max(575px) {
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+      }
+      select {
+        &:not(:last-child) {
+          margin-right: 20px;
+          @include max(575px) {
+            margin-right: 0;
+            margin-bottom: 10px;
+          }
         }
       }
     }
-    .main-page-top{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        @include max(768px){
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        .filter-main{
-            display: flex;
-            align-items: center;
-            @include max(575px){
-              flex-direction: column;
-              width: 100%;
-              align-items: flex-end;
-            }
-            span{
-              margin-right: 10px;
-              @include max(575px){
-                margin-right: 0;
-                margin-bottom: 10px;
-              }
-            }
-            select{
-              &:not(:last-child){
-                margin-right: 20px;
-                @include max(575px){
-                  margin-right: 0;
-                  margin-bottom: 10px;
-                }
-              }
-            }
-        }
-        select{
-            width: 150px;
-            padding: 0 10px;
-            color: black;
-        }
+    select {
+      width: 150px;
+      padding: 0 10px;
+      color: black;
     }
-    .main-section{
-        padding: 0 0 50px;
-        @include max(768px){
-          padding: 0 0 30px;
-        }
-        &.listKpi{
-          display: grid;
-          grid-gap: 25px;
-          grid-template-columns: repeat(4, 1fr);
-          @include max(1200px){
-            grid-template-columns: repeat(2, 1fr);
-          }
-          @include max(575px){
-            grid-template-columns: 100%;
-            row-gap: 20px;
-          }
-        }
-        &.detailKpi{
-          display: grid;
-          grid-template-columns: repeat(2, calc(50% - 20px));
-          grid-gap: 40px;
-          @include max(992px){
-            grid-template-columns: 100%;
-          }
-          .detailKpi-item{
-            background: #fff;
-            padding: 25px;
-            border-radius: 4px;
-            &:last-child{
-              @include max(768px){
-                padding-top: 40px;
-              }
-            }
-          }
-          .title-h2{
-            margin-bottom: 15px;
-          }
-        }
-        &.page-form{
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-gap: 40px;
-          @include max(768px){
-            grid-template-columns: 100%;
-          }
-        }
-        &.page-form-2{
-          display: grid;
-          grid-template-columns: 35% calc(65% - 40px);
-          grid-gap: 40px;
-          @include max(768px){
-            grid-template-columns: 100%;
-          }
-        }
+  }
+  .main-section {
+    padding: 0 0 50px;
+    @include max(768px) {
+      padding: 0 0 30px;
     }
+    &.listKpi {
+      display: grid;
+      grid-gap: 25px;
+      grid-template-columns: repeat(4, 1fr);
+      @include max(1200px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @include max(575px) {
+        grid-template-columns: 100%;
+        row-gap: 20px;
+      }
+    }
+    &.detailKpi {
+      display: grid;
+      grid-template-columns: repeat(2, calc(50% - 20px));
+      grid-gap: 40px;
+      @include max(992px) {
+        grid-template-columns: 100%;
+      }
+      .detailKpi-item {
+        background: #fff;
+        padding: 25px;
+        border-radius: 4px;
+        &:last-child {
+          @include max(768px) {
+            padding-top: 40px;
+          }
+        }
+      }
+      .title-h2 {
+        margin-bottom: 15px;
+      }
+    }
+    &.page-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 40px;
+      @include max(768px) {
+        grid-template-columns: 100%;
+      }
+    }
+    &.page-form-2 {
+      display: grid;
+      grid-template-columns: 35% calc(65% - 40px);
+      grid-gap: 40px;
+      @include max(768px) {
+        grid-template-columns: 100%;
+      }
+    }
+  }
 }
