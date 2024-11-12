@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import CapturePhoto from "../capturePhoto/CapturePhoto";
 import Tesseract from "tesseract.js";
 import { jsPDF } from "jspdf";
+import Alert from "../alert/Alert";
 
 const CaptureForm = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -54,7 +55,6 @@ const CaptureForm = () => {
 
         // Save the PDF with a filename
         pdf.save("extracted-text.pdf");
-        setSendForm(true);
       })
       .catch((err) => {
         console.error("Error during Tesseract recognition: ", err);
@@ -63,6 +63,10 @@ const CaptureForm = () => {
       .finally(() => {
         setIsLoading(false);
         resetForm();
+        setSendForm(true);
+        setTimeout(() => {
+          setSendForm(false);
+        }, 1500);
       });
   };
 
@@ -118,7 +122,12 @@ const CaptureForm = () => {
           </button>
         </div>
       </form>
-      {sendForm && <p>Form sent successfully</p>}
+      <Alert
+        icon="icon-checkmark"
+        type="success"
+        message="Capture transformée avec succès !"
+        state={sendForm ? true : false}
+      />
       {openCamera && (
         <CapturePhoto onClose={closeCamera} onCapture={handlePhotoCapture} />
       )}
