@@ -8,6 +8,7 @@ const CaptureForm = () => {
   const [openCamera, setOpenCamera] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [sendForm, setSendForm] = useState(false);
 
   // Function to handle image selection
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +54,7 @@ const CaptureForm = () => {
 
         // Save the PDF with a filename
         pdf.save("extracted-text.pdf");
+        setSendForm(true);
       })
       .catch((err) => {
         console.error("Error during Tesseract recognition: ", err);
@@ -71,6 +73,7 @@ const CaptureForm = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    setSendForm(false);
   };
 
   return (
@@ -115,6 +118,7 @@ const CaptureForm = () => {
           </button>
         </div>
       </form>
+      {sendForm && <p>Form sent successfully</p>}
       {openCamera && (
         <CapturePhoto onClose={closeCamera} onCapture={handlePhotoCapture} />
       )}
