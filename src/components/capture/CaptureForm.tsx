@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import CapturePhoto from "../capturePhoto/CapturePhoto";
 import Tesseract from "tesseract.js";
+import { jsPDF } from "jspdf";
 
 const CaptureForm = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -35,7 +36,6 @@ const CaptureForm = () => {
 
   // Function to transform the capture to file numeric
   const transformCapture = () => {
-    console.log("transforming");
     if (!selectedImage) return;
     setIsLoading(true);
     Tesseract.recognize(selectedImage, "eng", {
@@ -43,14 +43,34 @@ const CaptureForm = () => {
     })
       .then(({ data: { text } }) => {
         console.log("Extrated text : ", text);
-        setIsLoading(false);
+        const pdf = new jsPDF("p", "mm", "a4");
+        // Set a maximum width for the text
+        const pageWidth = pdf.internal.pageSize.getWidth() - 20; // 10mm margin on each side
+        const wrappedText = pdf.splitTextToSize(text, pageWidth);
+
+        // Add the wrapped text to the PDF
+        pdf.text(wrappedText, 10, 10);
+
+        // Save the PDF with a filename
+        pdf.save("extracted-text.pdf");
       })
       .catch((err) => {
         console.error("Error during Tesseract recognition: ", err);
+        setIsLoading(false);
       })
       .finally(() => {
         setIsLoading(false);
+        resetForm();
       });
+  };
+
+  //Reset form
+  const resetForm = () => {
+    setSelectedImage(null);
+    setOpenCamera(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
