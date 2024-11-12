@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import CapturePhoto from "../capturePhoto/CapturePhoto";
+import Tesseract from "tesseract.js";
 
 const CaptureForm = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -34,13 +35,22 @@ const CaptureForm = () => {
 
   // Function to transform the capture to file numeric
   const transformCapture = () => {
-    try {
-      console.log("transforming");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(true);
-    }
+    console.log("transforming");
+    if (!selectedImage) return;
+    setIsLoading(true);
+    Tesseract.recognize(selectedImage, "eng", {
+      logger: (m) => console.log(m),
+    })
+      .then(({ data: { text } }) => {
+        console.log("Extrated text : ", text);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error during Tesseract recognition: ", err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
